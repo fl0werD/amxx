@@ -113,7 +113,7 @@ endif()
 configure_file("include/amxx/config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/include/amxx/config.h" @ONLY)
 
 # Add include directories to a target
-target_include_directories(${PROJECT_NAME} INTERFACE "include")
+target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE "include")
 
 # Find header and source files
 file(GLOB_RECURSE AMXX_PUBLIC_HEADERS CONFIGURE_DEPENDS "include/*.h")
