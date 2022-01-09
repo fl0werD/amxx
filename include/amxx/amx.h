@@ -19,6 +19,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 //-V::122
 
@@ -615,5 +616,53 @@ namespace amx
         //-V:address:104, 206
         return reinterpret_cast<cell*>( // cppcheck-suppress invalidPointerCast
             amx->base + reinterpret_cast<const AmxHeader*>(amx->base)->dat + address);
+    }
+
+    /**
+     * @brief N/D
+    */
+    inline std::size_t GetStringLen(const cell* const address)
+    {
+        std::size_t length{0};
+
+        while (address[length]) {
+            ++length;
+        }
+
+        return length;
+    }
+
+    /**
+     * @brief N/D
+    */
+    inline std::size_t GetStringLen(const Amx* const amx, const cell address)
+    {
+        return GetStringLen(Address(amx, address));
+    }
+
+    /**
+     * @brief N/D
+    */
+    inline std::string GetString(const cell* const address)
+    {
+        std::string string{};
+
+        if (const auto length = GetStringLen(address)) {
+            string.resize(length);
+
+            for (std::size_t i = 0; i < length; ++i) {
+                string[i] = static_cast<std::string::value_type>(address[i]);
+            }
+        }
+
+        return string;
+    }
+
+    /**
+     * @brief N/D
+    */
+    inline std::string GetString(const Amx* const amx, const cell address)
+    {
+        return GetString(Address(amx, address));
     }
 }
